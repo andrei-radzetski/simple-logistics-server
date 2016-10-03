@@ -1,0 +1,22 @@
+{
+  "name": "simple-logistics-server",
+  "version": "0.0.1",
+  "description": "Simple logistics web server application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrei-radzetski/simple-logistics-server.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "andrei.radzetski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrei-radzetski/simple-logistics-server/issues"
+  },
+  "homepage": "https://github.com/andrei-radzetski/simple-logistics-server#readme"
+}
