@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/andrei-radzetski/simple-logistics-server/issues"
   },
-  "homepage": "https://github.com/andrei-radzetski/simple-logistics-server#readme"
+  "homepage": "https://github.com/andrei-radzetski/simple-logistics-server#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "log4js": "^0.6.38",
+    "nconf": "^0.8.4",
+    "promise": "^7.1.1"
+  }
 }
