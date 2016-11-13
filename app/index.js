@@ -1,5 +1,5 @@
 const logger = require('./logger')(module);
-const server = require('./server').instance;
+let server = require('./server').server(__dirname);
 
 server.run()
     .then((info) => {

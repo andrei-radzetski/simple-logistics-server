@@ -20,9 +20,14 @@
   },
   "homepage": "https://github.com/andrei-radzetski/simple-logistics-server#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-namespace": "^0.1.1",
+    "express-session": "^1.14.2",
     "log4js": "^0.6.38",
     "nconf": "^0.8.4",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "promise": "^7.1.1"
   }
 }
