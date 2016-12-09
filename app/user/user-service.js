@@ -1,9 +1,14 @@
-const User = require('./user');
-const Promise = require('promise');
+const AbstractService = require('../store').AbstractService
 
-module.exports = {
-    
-    findById: (id) => 
+class UserService extends AbstractService {
+
+}
+
+let instance = new UserService()
+module.exports = instance
+
+/*
+indById: (id) =>
         new Promise((resolve, reject) => {
             if(id == 1) {
                 resolve(new User());
@@ -12,7 +17,7 @@ module.exports = {
             }
     }),
 
-    findByLogin: (login) => 
+    findByLogin: (login) =>
         new Promise((resolve, reject) => {
             if(login == 'test@test.ru') {
                 resolve(new User());
@@ -20,4 +25,4 @@ module.exports = {
                 reject();
             }
     })
-};
+*/

@@ -1,9 +1,11 @@
-const logger = require('./logger')(module);
-let server = require('./server').server(__dirname);
+const logger = require('./logger')(module)
+const db = require('./store').db
+const server = require('./server').server(__dirname)
 
-server.run()
-    .then((info) => {
-        logger.info('The server running at "http://%s:%d/"', ...info);
-    }).catch((err) => {
-        logger.error(err);
-    });
+db.connect()
+    .flatMap(() => server.run())
+    .subscribe(
+        () => {},
+        err => logger.error(err),
+        () => logger.info('System was started.')
+    )
