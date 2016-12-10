@@ -4,7 +4,6 @@ const passport = require('passport')
 
 class Routing {
 
-
   /**
    * @typedef Raw
    * @property {string} method - type of the method (GET, POST, PUT ...).

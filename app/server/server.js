@@ -27,9 +27,13 @@ function _defineMiddleware () {
 
   // register passportjs
   let userService = require('../user/user-service')
-  require('../auth').service.init(userService.findByLogin, userService.findById)
+  require('../auth').service.init(userService, userService.findByLogin, userService.findById)
 
-  app.use(session({ secret: 'keyboard cat' }))
+  app.use(session({
+    secret: 'cookie secret keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  }))
   app.use(passport.initialize())
   app.use(passport.session())
 

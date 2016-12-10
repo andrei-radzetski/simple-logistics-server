@@ -2,7 +2,7 @@ const ctrl = require('./user-controller')
 const Routing = require('../rest').Routing
 const Route = require('../rest').Route
 
-const namespase = '/user'
+const namespase = '/users'
 const routes = [
   {
     method: Route.GET,

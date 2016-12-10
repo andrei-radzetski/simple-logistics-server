@@ -9,10 +9,8 @@ class UserService extends AbstractService {
   }
 
   findByLogin (login) {
-    return Rx.Observable.create(observer => {
-      observer.onNext(login)
-      observer.onCompleted()
-    })
+    return Rx.Observable
+      .fromNodeCallback(User.findOne, User)({ $or: [{ email: login }, { phone: login }] })
   }
 
 }

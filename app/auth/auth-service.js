@@ -4,13 +4,14 @@ const Rx = require('rx')
 
 module.exports = {
 
-  init: (findByLogin, findById) => {
+  init: (context, findByLogin, findById) => {
     // Serialize user instances to and from the session.
     passport.serializeUser((user, done) => done(null, user._id))
 
     // Deserialize user instances to and from the session.
     passport.deserializeUser((id, done) => {
-      findById(id).subscribe(
+      findById.apply(context, [id])
+      .subscribe(
         user => done(null, user),
         err => done(err, null))
     })
@@ -21,7 +22,7 @@ module.exports = {
     passport.use(new LocalStrategy((login, password, done) => {
       let _user
 
-      findByLogin(login)
+      findByLogin.apply(context, [login])
         .flatMapObserver(
           user => {
             _user = user

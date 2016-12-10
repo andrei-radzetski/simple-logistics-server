@@ -22,20 +22,20 @@ class AbstractController {
 
   /**
    * Create response.
-   * 
-   * @param {Object} data - data for response.
+   *
+   * @param {Object} response - data for the response.
    * @param {Error} error
    * @param {string} message - error message
    * @returns {Object}
    */
-  createResponseBoby (data, error, message) {
-    return error ? { data: null, error: true, message: message }
-      : { data: data, error: false, message: null }
+  createResponseBoby (response, error, message) {
+    return error ? { response: null, error: true, message: message }
+      : { response: response, error: false, message: null }
   }
 
   /**
    * Call service method and process response.
-   * 
+   *
    * @param {Object} context - calling method context.
    * @param {function} fn - calling method.
    * @param {res} res - server response object.
@@ -48,7 +48,7 @@ class AbstractController {
         data => {
           return Array.isArray(data)
             ? Rx.Observable.from(data).map(el => el.toResponse()).toArray()
-            : Rx.Observable.return(data.toResponse())
+            : Rx.Observable.return(data ? data.toResponse() : null)
         },
         err => Rx.Observable.throw(err),
         () => Rx.Observable.empty())
@@ -59,7 +59,7 @@ class AbstractController {
 
   /**
    * Find object by id.
-   * 
+   *
    * @param {Object} req - server request
    * @param {Object} res - server response
    * @param {function} next
@@ -76,7 +76,7 @@ class AbstractController {
 
   /**
    * Get list of all objects.
-   * 
+   *
    * @param {Object} req - server request
    * @param {Object} res - server response
    * @param {function} next
