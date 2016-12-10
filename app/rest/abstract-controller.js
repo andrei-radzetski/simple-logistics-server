@@ -69,9 +69,9 @@ class AbstractController {
       throw new TypeError('Service doesn\'t have "findById" method.')
     }
 
-    let data = req.params.id
+    let id = req.params.id
 
-    this._applySubscribe(this.service, this.service.findById, res, [data])
+    this._applySubscribe(this.service, this.service.findById, res, [id])
   }
 
   /**
@@ -86,7 +86,25 @@ class AbstractController {
       throw new TypeError('Service doesn\'t have "find" method.')
     }
 
-    this._applySubscribe(this.service, this.service.find, res, [])
+    this._applySubscribe(this.service, this.service.find, res, [{}])
+  }
+
+  /**
+   * Update object by id.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  update (req, res, next) {
+    if (typeof this.service.update !== 'function') {
+      throw new TypeError('Service doesn\'t have "update" method.')
+    }
+
+    let id = req.params.id
+    let data = req.body
+
+    this._applySubscribe(this.service, this.service.update, res, [id, data])
   }
 }
 

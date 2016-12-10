@@ -24,19 +24,40 @@ class AbstractService {
    * Get object by id.
    *
    * @param {string|ObjectId} id - the identifier of the desired object.
-   * @returns {Object}
+   * @returns {Observable<Object>}
    */
   findById (id) {
     return Rx.Observable.fromNodeCallback(this.clazz.findById, this.clazz)(id)
   }
 
   /**
-   * Get list of all objects.
+   * Get list of objects by params.
    *
-   * @returns {Array<Object>}
+   * @param {Object} params
+   * @returns {Observable<Array<Object>>}
    */
-  find () {
-    return Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)({})
+  find (params) {
+    return Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)(params)
+  }
+
+  /**
+   * Create new object.
+   *
+   * @param {Object} data
+   * @returns {Observable<Object>}
+   */
+  save (data) {
+    return Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)(data)
+  }
+
+  /**
+   * Update object by id.
+   *
+   * @param {Object} data
+   * @returns {Observable<Object>}
+   */
+  update (id, data) {
+    return Rx.Observable.fromNodeCallback(this.clazz.findByIdAndUpdate, this.clazz)(id, data, { new: true })
   }
 }
 

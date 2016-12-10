@@ -16,6 +16,13 @@ const routes = [
     path: '/:id',
     protected: false,
     handler: (req, res, next) => ctrl.findById(req, res, next)
+  },
+
+  {
+    method: Route.POST,
+    path: '/:id',
+    protected: true,
+    handler: (req, res, next) => ctrl.update(req, res, next)
   }
 ]
 
