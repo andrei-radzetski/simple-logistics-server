@@ -1,28 +1,21 @@
 const AbstractService = require('../store').AbstractService
+const User = require('./user')
+const Rx = require('rx')
 
 class UserService extends AbstractService {
+
+  constructor () {
+    super(User)
+  }
+
+  findByLogin (login) {
+    return Rx.Observable.create(observer => {
+      observer.onNext(login)
+      observer.onCompleted()
+    })
+  }
 
 }
 
 let instance = new UserService()
 module.exports = instance
-
-/*
-indById: (id) =>
-        new Promise((resolve, reject) => {
-            if(id == 1) {
-                resolve(new User());
-            } else {
-                reject();
-            }
-    }),
-
-    findByLogin: (login) =>
-        new Promise((resolve, reject) => {
-            if(login == 'test@test.ru') {
-                resolve(new User());
-            } else {
-                reject();
-            }
-    })
-*/

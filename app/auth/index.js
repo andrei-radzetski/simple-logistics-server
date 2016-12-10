@@ -1,6 +1,6 @@
-
 module.exports = {
-  auth: require('./auth'),
-  routing: require('./routing'),
-  controller: require('./controller')
+  AuthUtil: require('./auth-util'),
+  routing: require('./auth-routing'),
+  controller: require('./auth-controller'),
+  service: require('./auth-service')
 }

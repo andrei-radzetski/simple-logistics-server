@@ -20,5 +20,8 @@
                 "filename": "logging.log"
             }
         ]
+    },
+    "auth": {
+      "saltRounds": 9
     }
 }

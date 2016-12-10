@@ -8,25 +8,31 @@ class Route {
     return 'POST'
   }
 
-  constructor (method, path, protect, handler) {
+  /**
+   * @property {string} method - type of the method (GET, POST, PUT ...).
+   * @property {string} path - url.
+   * @property {Object} protection - protecting middleware.
+   * @property {function} handler - processing request middleware.
+   */
+  constructor (method, path, protection, handler) {
     this.method = method
     this.path = path
-    this.protect = protect
+    this.protection = protection
     this.handler = handler
   }
 
   /**
    * Create array of arguments to register route function.
    * If protect middleware isn't null, array consists of tree
-   * elements (first - path, second - protect, third - handler),
+   * elements (first - path, second - protection, third - handler),
    * otherwise array consists of two elemens
    * (first - path, second - handler).
    *
-   * @returns {Array}
+   * @returns {Array<Object>}
    */
   toArguments () {
-    return this.protect != null
-      ? [this.path, this.protect, this.handler]
+    return this.protection != null
+      ? [this.path, this.protection, this.handler]
       : [this.path, this.handler]
   }
 

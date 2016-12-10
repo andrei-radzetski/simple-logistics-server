@@ -4,6 +4,19 @@ const passport = require('passport')
 
 class Routing {
 
+
+  /**
+   * @typedef Raw
+   * @property {string} method - type of the method (GET, POST, PUT ...).
+   * @property {string} path - url.
+   * @property {bool} protected - if it's true, route is protected.
+   * @property {function} handler - processing request middleware.
+   */
+  /**
+   * @param {Object} app - expressJS app.
+   * @param {string} namespace - namespace of the routing.
+   * @param {Array<Raw>} raws - raw routing objects.
+   */
   constructor (app, namespace, raws) {
     this.app = app
     this.namespace = namespace
@@ -13,7 +26,7 @@ class Routing {
   }
 
   /**
-   * Create {Route} objects from {@link Routing#raws}
+   * Create routing objects from {@link Routing#raws}
    * array of route data.
    *
    * @private
@@ -34,7 +47,6 @@ class Routing {
    * Route won't apply, to apply needs to call {@link Routing#commit}.
    *
    * @param {Route} route
-   * @public
    */
   addRoute (route) {
     this.routers.push(route)
@@ -42,8 +54,6 @@ class Routing {
 
   /**
    * Apply all routing methods to the app.
-   *
-   * @public
    */
   commit () {
     let ths = this
@@ -88,7 +98,9 @@ class Routing {
    */
   _registerMethod (fn, route) {
     fn.apply(this.app, route.toArguments())
-    logger.info('Mapped: %s -> %s%s', route.method, this.namespace, route.path)
+
+    let pr = route.protection ? 'PRVT' : 'PBLC'
+    logger.info('Mapped: %s -> %s -> %s%s', pr, route.method, this.namespace, route.path)
   }
 }
 

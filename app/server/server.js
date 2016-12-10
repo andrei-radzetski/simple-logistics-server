@@ -26,7 +26,8 @@ function _defineMiddleware () {
   app.use(_watcher)
 
   // register passportjs
-  require('../auth').auth(app)
+  let userService = require('../user/user-service')
+  require('../auth').service.init(userService.findByLogin, userService.findById)
 
   app.use(session({ secret: 'keyboard cat' }))
   app.use(passport.initialize())
@@ -50,7 +51,7 @@ module.exports = function (rootDir) {
     /**
      * Run server (info about host and port see config.json).
      *
-     * @returns { Rx.Observable }
+     * @returns {Observable}
      */
     run: () => {
       return Rx.Observable.create(observer => {
@@ -59,7 +60,7 @@ module.exports = function (rootDir) {
 
         app.listen(port, host, () => {
           logger.info('The server running at "http://%s:%d/"', host, port)
-          observer.onNext({ port: port, host: host })
+          observer.onNext()
           observer.onCompleted()
         }).on('error', err => {
           logger.error(err)

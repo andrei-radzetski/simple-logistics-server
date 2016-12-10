@@ -6,7 +6,7 @@ log4js.configure(config.get('log4js'))
 /**
  * Get logger by module name, if module is undefined, logger name will be [default].
  *
- * @param module {Object} Module meta data.
+ * @param {Object} module - Module meta data.
  * @returns {Logger}
  */
 module.exports = function (module) {
