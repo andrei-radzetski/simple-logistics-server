@@ -8,7 +8,9 @@ class Routing {
    * @typedef Raw
    * @property {string} method - type of the method (GET, POST, PUT ...).
    * @property {string} path - url.
-   * @property {bool} protected - if it's true, route is protected.
+   * @property {bool} straight - if it is true, route path exactly matches defined path.
+   * @property {bool|string|Array<string>} protection - if it's true or defined scope, 
+   * route is protected (available strings: *, admin, user).
    * @property {function} handler - processing request middleware.
    */
   /**
@@ -20,7 +22,8 @@ class Routing {
     this.app = app
     this.namespace = namespace
     this.raws = raws
-    this.routers = []
+    this.routesWithNamespace = []
+    this.routesWithoutNamespace = []
     this._createRoutesFromRaws()
   }
 
@@ -33,12 +36,25 @@ class Routing {
   _createRoutesFromRaws () {
     if (this.raws && Array.isArray(this.raws)) {
       for (let raw of this.raws) {
-        let protect = raw.protected ? passport.protect() : null
-        let route = new Route(raw.method, raw.path, protect, raw.handler)
+        let protect = raw.protection ? passport.authenticate('bearer', { session: false }) : null
+        let scope = raw.protection ? this._createScopeMiddleware(raw.protection) : null
+        let route = new Route(raw.method, raw.path, protect, scope, raw.handler, raw.straight)
 
         this.addRoute(route)
       }
     }
+  }
+
+  _createScopeMiddleware (scope) {
+    if (scope && (typeof scope === 'boolean' || scope instanceof Boolean)) {
+      return passport.scope('*')
+    }
+
+    if (scope && (Array.isArray(scope) || typeof scope === 'string' || scope instanceof String)) {
+      return passport.scope(scope)
+    }
+
+    return null
   }
 
   /**
@@ -48,7 +64,10 @@ class Routing {
    * @param {Route} route
    */
   addRoute (route) {
-    this.routers.push(route)
+    route.straight 
+      ? this.routesWithoutNamespace.push(route) 
+      : this.routesWithNamespace.push(route)
+    
   }
 
   /**
@@ -57,8 +76,12 @@ class Routing {
   commit () {
     let ths = this
 
+    for (let route of this.routesWithoutNamespace) {
+        this._registerRoute(route)
+    }
+
     this.app.namespace(this.namespace, () => {
-      for (let route of this.routers) {
+      for (let route of this.routesWithNamespace) {
         ths._registerRoute(route)
       }
     })
@@ -81,8 +104,12 @@ class Routing {
         this._registerMethod(this.app.post, route)
         break
 
+      case Route.PUT:
+        this._registerMethod(this.app.put, route)
+        break
+
       default:
-        logger.warn('Unknown route (namespace=[%s]): %s', this.namespace, route.toString())
+        logger.warn('Unknown route (namespace=[%s]): %s', route.straight ? '' : this.namespace, route.toString())
         logger.warn('Add this method to the {rest.Routing#_registerRoute}')
         break
     }
@@ -98,8 +125,8 @@ class Routing {
   _registerMethod (fn, route) {
     fn.apply(this.app, route.toArguments())
 
-    let pr = route.protection ? 'PRVT' : 'PBLC'
-    logger.info('Mapped: %s -> %s -> %s%s', pr, route.method, this.namespace, route.path)
+    let pr = route.protection ? '(-)' : '(+)'
+    logger.info('Mapped: %s -> %s -> %s%s', pr, route.method, route.straight ? '' : this.namespace, route.path)
   }
 }
 

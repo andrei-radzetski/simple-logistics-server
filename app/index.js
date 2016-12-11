@@ -9,15 +9,18 @@ db.connect()
     err => logger.error(err),
     () => logger.info('System was started.'))
 
-/*
-const User = require('./user').User
-let user = new User({
-email: 'admin@sl.by',
-phone: '+375292669577',
-password: 'admin',
-firstName: 'Admin',
-secondName: 'Admin',
-confirmed: true
-})
-user.save((err, product, numAffected) => console.log(arguments))
-*/
+// TODO: remove
+function init() {
+  const User = require('./user/user')
+  let user = new User({
+    email: 'andrei.radzetski@gmail.com',
+    phone: '375292669577',
+    password: 'admin',
+    firstName: 'Admin',
+    secondName: 'Admin',
+    confirmed: true,
+    scope: 'admin'
+  })
+  user.save((err, user) => logger.info(user))
+}
+

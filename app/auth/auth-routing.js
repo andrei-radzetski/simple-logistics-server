@@ -7,14 +7,15 @@ const routes = [
   {
     method: Route.POST,
     path: '/login',
-    protected: false,
+    straight: true,
     handler: (req, res, next) => ctrl.login(req, res, next)
   },
 
   {
     method: Route.GET,
     path: '/logout',
-    protected: true,
+    straight: true,
+    protection: '*',
     handler: (req, res, next) => ctrl.logout(req, res, next)
   }
 ]

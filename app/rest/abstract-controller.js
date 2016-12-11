@@ -1,4 +1,4 @@
-const Rx = require('rx')
+const RestUtil = require('../rest/rest-util')
 
 /**
  * @abstract
@@ -29,32 +29,20 @@ class AbstractController {
    * @returns {Object}
    */
   createResponseBoby (response, error, message) {
-    return error ? { response: null, error: true, message: message }
-      : { response: response, error: false, message: null }
+    return RestUtil.createResponseBoby(response, error, message)
   }
 
   /**
    * Call service method and process response.
    *
    * @param {Object} context - calling method context.
-   * @param {function} fn - calling method.
+   * @param {function} method - calling method.
    * @param {res} res - server response object.
    * @param {Array<Object>} params - arguments of the calling method.
    * @private
    */
-  _applySubscribe (context, fn, res, params) {
-    fn.apply(context, params)
-      .flatMapObserver(
-        data => {
-          return Array.isArray(data)
-            ? Rx.Observable.from(data).map(el => el.toResponse()).toArray()
-            : Rx.Observable.return(data ? data.toResponse() : null)
-        },
-        err => Rx.Observable.throw(err),
-        () => Rx.Observable.empty())
-      .subscribe(
-        data => res.json(this.createResponseBoby(data)),
-        err => res.json(this.createResponseBoby(null, err, err.message)))
+  callServiceMethod (context, method, res, params) {
+    RestUtil.callServiceMethod(context, method, res, params)
   }
 
   /**
@@ -62,7 +50,6 @@ class AbstractController {
    *
    * @param {Object} req - server request
    * @param {Object} res - server response
-   * @param {function} next
    */
   findById (req, res, next) {
     if (typeof this.service.findById !== 'function') {
@@ -71,7 +58,7 @@ class AbstractController {
 
     let id = req.params.id
 
-    this._applySubscribe(this.service, this.service.findById, res, [id])
+    this.callServiceMethod(this.service, this.service.findById, res, [id])
   }
 
   /**
@@ -86,7 +73,7 @@ class AbstractController {
       throw new TypeError('Service doesn\'t have "find" method.')
     }
 
-    this._applySubscribe(this.service, this.service.find, res, [{}])
+    this.callServiceMethod(this.service, this.service.find, res, [{}])
   }
 
   /**
@@ -104,7 +91,7 @@ class AbstractController {
     let id = req.params.id
     let data = req.body
 
-    this._applySubscribe(this.service, this.service.update, res, [id, data])
+    this.callServiceMethod(this.service, this.service.update, res, [id, data])
   }
 }
 

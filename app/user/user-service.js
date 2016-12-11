@@ -15,5 +15,4 @@ class UserService extends AbstractService {
 
 }
 
-let instance = new UserService()
-module.exports = instance
+module.exports = new UserService()

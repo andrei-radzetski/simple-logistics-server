@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('../config')
-const AuthUtil = require('../auth').AuthUtil
+const AuthUtil = require('../auth/auth-util')
 
 const properties = {
   email: { type: String, required: true, unique: true },
@@ -10,7 +10,13 @@ const properties = {
   secondName: { type: String, required: true },
   confirmed: { type: Boolean, default: false },
   enabled: { type: Boolean, default: true },
-  creationDate: { type: Date, default: new Date(), required: true }
+  creationDate: { type: Date, default: new Date(), required: true },
+  // *, admin, user
+  scope: { type: String, default: 'user', required: true }/*,
+  tokens: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Token'
+  }]*/
 }
 
 const schema = new mongoose.Schema(properties)
@@ -22,7 +28,7 @@ schema.methods = {
    *
    * @returns {Object}
    */
-  toResponse: function () {
+  toResponse: function (extended) {
     let obj = {}
 
     obj.id = this._id

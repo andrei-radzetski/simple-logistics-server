@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const Rx = require('rx')
+const randtoken = require('rand-token')
 
 class AuthUtil {
 
@@ -46,6 +47,15 @@ class AuthUtil {
     return AuthUtil
       .genSalt(saltRounds)
       .flatMap(salt => AuthUtil.genHash(str, salt))
+  }
+
+  /**
+   * Generate token by the length
+   *
+   * @param {number} length
+   */
+  static genToken (length) {
+    return randtoken.generate(length)
   }
 
 }

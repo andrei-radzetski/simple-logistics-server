@@ -7,6 +7,17 @@ class UserController extends AbstractController {
     super(userService)
   }
 
+  /**
+   * Get data of current user.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  profile(req, res, next) {
+    res.json(this.createResponseBoby(req.user.toResponse(true), false));
+  }
+
 }
 
 let instance = new UserController()

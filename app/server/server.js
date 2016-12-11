@@ -3,9 +3,7 @@ const config = require('../config')
 const express = require('express')
 const logger = require('../logger')(module)
 const namespace = require('express-namespace')
-const passport = require('passport')
 const Rx = require('rx')
-const session = require('express-session')
 const app = express()
 
 /**
@@ -25,17 +23,7 @@ function _defineMiddleware () {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(_watcher)
 
-  // register passportjs
-  let userService = require('../user/user-service')
-  require('../auth').service.init(userService, userService.findByLogin, userService.findById)
-
-  app.use(session({
-    secret: 'cookie secret keyboard cat',
-    resave: true,
-    saveUninitialized: true
-  }))
-  app.use(passport.initialize())
-  app.use(passport.session())
+  require('../auth/auth-init')()
 
   _registerRouters()
 }

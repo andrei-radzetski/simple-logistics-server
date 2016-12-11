@@ -6,22 +6,28 @@ const namespase = '/users'
 const routes = [
   {
     method: Route.GET,
+    path: '/profile',
+    straight: true,
+    protection: '*',
+    handler: (req, res, next) => ctrl.profile(req, res, next)
+  },
+
+  {
+    method: Route.GET,
     path: '/',
-    protected: false,
     handler: (req, res, next) => ctrl.find(req, res, next)
   },
 
   {
     method: Route.GET,
     path: '/:id',
-    protected: false,
     handler: (req, res, next) => ctrl.findById(req, res, next)
   },
 
   {
-    method: Route.POST,
+    method: Route.PUT,
     path: '/:id',
-    protected: true,
+    protection: 'admin',
     handler: (req, res, next) => ctrl.update(req, res, next)
   }
 ]

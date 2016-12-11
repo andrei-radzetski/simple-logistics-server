@@ -1,4 +1,7 @@
-const passport = require('passport')
+const Observable = require('rx').Observable
+const RestUtil = require('../rest/rest-util')
+const userService = require('../user/user-service')
+const tokenService = require('../token/token-service')
 
 class AuthController {
 
@@ -10,22 +13,21 @@ class AuthController {
    * @param {function} next
    */
   login (req, res, next) {
-    passport.authenticate('local', (err, user, message) => {
-      if (err) {
-        return next(err)
-      }
+    let ths = this
 
-      if (!user) {
-        return res.status(401).send(message ? message.message : null)
-      }
+    // TODO: params validation
 
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err)
-        }
-        return res.sendStatus(200)
-      })
-    })(req, res, next)
+    let login = req.body.username
+    let password = req.body.password
+    let remember = req.body.remember
+
+    userService.findByLogin(login)
+      .flatMap(user => ths._checkUser(user, password))
+      .flatMap(user => tokenService.create(user, remember))
+      .flatMap(token => RestUtil.dataToResponse(token))
+      .subscribe(
+        token => res.json(RestUtil.createResponseBoby(token, false)),
+        err => res.status(401).send(err ? err.message : null))
   }
 
   /**
@@ -36,8 +38,25 @@ class AuthController {
    * @param {function} next
    */
   logout (req, res, next) {
-    req.logout()
-    res.sendStatus(401)
+    tokenService.disable(req.user.token)
+      .subscribe(
+        token => res.sendStatus(401),
+        err => res.sendStatus(500))
+  }
+
+  /**
+   *
+   */
+  _checkUser (user, password) {
+    if (!user) {
+      return Observable.throw({ message: 'User not found.' })
+    }
+
+    return user.comparePassword(password)
+      .flatMapObserver(
+        isMatch => isMatch ? Observable.return(user) : Observable.throw({ message: 'Incorrect password.' }),
+        err => Observable.throw(err),
+        () => Observable.empty())
   }
 }
 

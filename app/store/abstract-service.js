@@ -46,8 +46,8 @@ class AbstractService {
    * @param {Object} data
    * @returns {Observable<Object>}
    */
-  save (data) {
-    return Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)(data)
+  create (data) {
+    return Rx.Observable.fromNodeCallback(this.clazz.create, this.clazz)(data)
   }
 
   /**

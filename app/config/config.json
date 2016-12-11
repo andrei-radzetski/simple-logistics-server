@@ -7,7 +7,7 @@
         "host": "127.0.0.1"
     },
     "db": {
-        "uri": "mongodb://localhost/test",
+        "uri": "mongodb://localhost/sl_db",
         "options": {}
     },
     "log4js": {
@@ -22,6 +22,9 @@
         ]
     },
     "auth": {
-      "saltRounds": 9
+      "saltRounds": 9,
+      "tokenLength": 32,
+      "rememberShort": 86400000,
+      "rememberLong": 604800000
     }
 }

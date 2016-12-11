@@ -8,17 +8,25 @@ class Route {
     return 'POST'
   }
 
+  static get PUT () {
+    return 'PUT'
+  }
+
   /**
    * @property {string} method - type of the method (GET, POST, PUT ...).
    * @property {string} path - url.
-   * @property {Object} protection - protecting middleware.
+   * @property {function} protection - protecting middleware.
+   * @property {function} scope - scope protection middleware.
    * @property {function} handler - processing request middleware.
+   * @property {bool} straight - if it is true, route path exactly matches defined path.
    */
-  constructor (method, path, protection, handler) {
+  constructor (method, path, protection, scope, handler, straight) {
     this.method = method
     this.path = path
     this.protection = protection
+    this.scope = scope
     this.handler = handler
+    this.straight = straight
   }
 
   /**
@@ -32,7 +40,7 @@ class Route {
    */
   toArguments () {
     return this.protection != null
-      ? [this.path, this.protection, this.handler]
+      ? [this.path, this.protection, this.scope, this.handler]
       : [this.path, this.handler]
   }
 
