@@ -10,7 +10,7 @@ db.connect()
     () => logger.info('System was started.'))
 
 // TODO: remove
-function init() {
+function init () {
   const User = require('./user/user')
   let user = new User({
     email: 'andrei.radzetski@gmail.com',

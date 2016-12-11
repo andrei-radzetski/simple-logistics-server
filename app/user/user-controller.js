@@ -14,8 +14,8 @@ class UserController extends AbstractController {
    * @param {Object} res - server response
    * @param {function} next
    */
-  profile(req, res, next) {
-    res.json(this.createResponseBoby(req.user.toResponse(true), false));
+  profile (req, res, next) {
+    res.json(this.createResponseBoby(req.user.toResponse(true), false))
   }
 
 }

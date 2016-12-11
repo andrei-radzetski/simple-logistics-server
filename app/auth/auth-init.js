@@ -3,12 +3,11 @@ const BearerStrategy = require('passport-http-bearer').Strategy
 const tokenService = require('../token/token-service')
 
 module.exports = () => {
-
   passport.use(new BearerStrategy((token, done) => {
     tokenService.findTokenUser(token)
       .subscribe(
         data => {
-          if(data && data.enabled && !data.isExpired() && data.user) {
+          if (data && data.enabled && !data.isExpired() && data.user) {
             data.user.token = data.accessToken
             done(null, data.user)
           } else {

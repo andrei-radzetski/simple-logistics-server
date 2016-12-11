@@ -2,6 +2,7 @@ const Observable = require('rx').Observable
 const RestUtil = require('../rest/rest-util')
 const userService = require('../user/user-service')
 const tokenService = require('../token/token-service')
+const logger = require('../logger')(module)
 
 class AuthController {
 
@@ -41,7 +42,10 @@ class AuthController {
     tokenService.disable(req.user.token)
       .subscribe(
         token => res.sendStatus(401),
-        err => res.sendStatus(500))
+        err => {
+          logger.error(err)
+          res.sendStatus(500)
+        })
   }
 
   /**

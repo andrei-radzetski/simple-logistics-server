@@ -9,7 +9,7 @@ class Routing {
    * @property {string} method - type of the method (GET, POST, PUT ...).
    * @property {string} path - url.
    * @property {bool} straight - if it is true, route path exactly matches defined path.
-   * @property {bool|string|Array<string>} protection - if it's true or defined scope, 
+   * @property {bool|string|Array<string>} protection - if it's true or defined scope,
    * route is protected (available strings: *, admin, user).
    * @property {function} handler - processing request middleware.
    */
@@ -64,10 +64,9 @@ class Routing {
    * @param {Route} route
    */
   addRoute (route) {
-    route.straight 
-      ? this.routesWithoutNamespace.push(route) 
+    route.straight
+      ? this.routesWithoutNamespace.push(route)
       : this.routesWithNamespace.push(route)
-    
   }
 
   /**
@@ -77,7 +76,7 @@ class Routing {
     let ths = this
 
     for (let route of this.routesWithoutNamespace) {
-        this._registerRoute(route)
+      this._registerRoute(route)
     }
 
     this.app.namespace(this.namespace, () => {

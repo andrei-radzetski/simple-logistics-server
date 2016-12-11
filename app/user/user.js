@@ -16,7 +16,7 @@ const properties = {
   tokens: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Token'
-  }]*/
+  }] */
 }
 
 const schema = new mongoose.Schema(properties)
