@@ -10,7 +10,16 @@ Simple logistics web server application.
   git clone https://github.com/andrei-radzetski/simple-logistics-server.git
   ```
   
- 2. to be continue ...
+ 2. Move to the project directory and install the project:
+  
+  ```
+  npm install
+  ```
+ 3. Run the starting script:
+  
+  ```
+  npm start
+  ```
   
 ## Authors
 
