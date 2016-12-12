@@ -8,13 +8,13 @@ module.exports = () => {
   passport.use(new BearerStrategy((token, next) => {
     tokenService.findTokenUser(token)
       .subscribe(data => {
-          if (data && data.enabled && !data.isExpired() && data.user) {
-            data.user.token = data.accessToken
-            next(null, data.user)
-          } else {
-            next(new HttpError401(), false)
-          }
-        }, err => next(err))
+        if (data && data.enabled && !data.isExpired() && data.user) {
+          data.user.token = data.accessToken
+          next(null, data.user)
+        } else {
+          next(new HttpError401(), false)
+        }
+      }, err => next(err))
   }))
 
   /**

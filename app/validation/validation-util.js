@@ -82,7 +82,7 @@ class ValidationUtil {
    * @param {string} value
    * @returns {boolean}
    */
-  static isObjectId(value) {
+  static isObjectId (value) {
     return /^[0-9a-fA-F]{24}$/.test(value)
   }
 

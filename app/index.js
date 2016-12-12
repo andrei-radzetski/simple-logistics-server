@@ -12,7 +12,7 @@ db.connect()
 // TODO: remove
 function init () {
   const User = require('./user/user')
-  
+
   let admin = new User({
     email: 'andrei.radzetski@gmail.com',
     phone: '375292669577',

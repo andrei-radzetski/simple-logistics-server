@@ -126,7 +126,7 @@ class ParamValidator {
 
       case ParamValidator.BOOLEAN:
         return ValidationUtil.isBoolean(this.value, true)
-      
+
       case ParamValidator.OBJECT_ID:
         return ValidationUtil.isObjectId(this.value)
 
@@ -190,7 +190,7 @@ class ParamValidator {
 
       case ParamValidator.BOOLEAN:
         return ValidationUtil.isBoolean(value) ? value : value === 'true'
-      
+
       case ParamValidator.OBJECT_ID:
         // TODO: verify
         logger.warn('Not Verified')

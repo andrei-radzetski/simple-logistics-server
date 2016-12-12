@@ -45,17 +45,17 @@ function registerRouters () {
 }
 
 /**
- * 
+ *
  */
-function handlePageNotFound(req, res) {
-    throw new HttpError404();
+function handlePageNotFound (req, res) {
+  throw new HttpError404()
 }
 
 /**
- * 
+ *
  */
-function handleHttpError(err, req, res, next) {
-  if(!(err instanceof HttpError) || err instanceof HttpError500) {
+function handleHttpError (err, req, res, next) {
+  if (!(err instanceof HttpError) || err instanceof HttpError500) {
     return next(err)
   }
 
@@ -64,9 +64,9 @@ function handleHttpError(err, req, res, next) {
 }
 
 /**
- * 
+ *
  */
-function handleError(err, req, res, next) {
+function handleError (err, req, res, next) {
   logger.error(err instanceof HttpError500 ? err.toString() : err)
 
   let resJson = RestUtil.createResponseBoby(null, true, 'Internal Server Error')

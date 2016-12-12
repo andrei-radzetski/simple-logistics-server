@@ -52,6 +52,9 @@ schema.methods = {
 }
 
 schema.pre('save', function (next) {
+  // TODO: Unchecked format of email, phone, password, firstName, secondName
+  logger.warn('Unchecked format of email, phone, password, firstName, secondName')
+
   var ths = this
 
   // only hash the password if it has been modified (or is new)
@@ -64,7 +67,7 @@ schema.pre('save', function (next) {
    */
   AuthUtil.genHashedString(ths.password, config.get('auth:saltRounds'))
     .subscribe(
-      hash => { ths.password = hash },
+      hash => ths.password = hash,
       err => next(err),
       () => next())
 })

@@ -111,7 +111,6 @@ class Routing {
         logger.error('Unknown route (namespace=[%s]): %s', route.straight ? '' : this.namespace, route.toString())
         logger.error('Add this method to the {rest.Routing#_registerRoute}')
         throw new TypeError('Unknown route method.')
-        break
     }
   }
 

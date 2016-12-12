@@ -3,13 +3,14 @@ const HttpError = require('./http-error')
  * 500 Internal Server Error.
  */
 class HttpError500 extends HttpError {
-  
-  constructor(message) {
+
+  constructor (message) {
+    message = message == null ? message : 'Internal Server Error'
     super(500, message)
-    
+
     this.name = this.constructor.name
-    this.message = message ? message : 'Internal Server Error'
-    
+    this.message = message
+
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor)
     } else {

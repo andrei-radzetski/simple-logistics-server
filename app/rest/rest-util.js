@@ -20,7 +20,7 @@ class RestUtil {
    * Object have to have "toResponse" method.
    *
    * @param {Object|Array<Object>} data
-   * 
+   *
    * @returns {Observable<Object>|Observable<Array<Object>>}
    */
   static dataToResponse (data) {

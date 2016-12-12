@@ -3,13 +3,14 @@ const HttpError = require('./http-error')
  * 400 Bad Request.
  */
 class HttpError400 extends HttpError {
-  
-  constructor(message) {
+
+  constructor (message) {
+    message = message == null ? message : 'Bad Request'
     super(400, message)
-    
+
     this.name = this.constructor.name
-    this.message = message ? message : 'Bad Request'
-    
+    this.message = message
+
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor)
     } else {

@@ -49,7 +49,7 @@ class AbstractController {
     let ths = this
 
     new ParamsValidator([
-      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true },
+      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true }
     ]).validate()
       .flatMap(result => ths.service.findById(result.id))
       .flatMap(data => RestUtil.dataToResponse(data))
@@ -92,13 +92,13 @@ class AbstractController {
     if (typeof this.service.update !== 'function') {
       throw new TypeError('Service doesn\'t have "update" method.')
     }
-    
+
     // TODO: Unchecked req.body
     logger.warn('Unchecked req.body')
     let ths = this
 
     new ParamsValidator([
-      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true },
+      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true }
     ]).validate()
       .flatMap(result => ths.service.update(result.id, req.body))
       .flatMap(data => RestUtil.dataToResponse(data))

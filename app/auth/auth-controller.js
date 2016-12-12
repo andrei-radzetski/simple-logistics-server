@@ -2,7 +2,6 @@ const Observable = require('rx').Observable
 const RestUtil = require('../rest/rest-util')
 const userService = require('../user/user-service')
 const tokenService = require('../token/token-service')
-const logger = require('../logger')(module)
 const ParamsValidator = require('../validation/params-validator')
 const ParamValidator = require('../validation/param-validator')
 const HttpError401 = require('../rest/error/http-error-401')
@@ -60,8 +59,8 @@ class AuthController {
     }
 
     return user.comparePassword(password)
-      .flatMap(isMatch => isMatch 
-        ? Observable.return(user) 
+      .flatMap(isMatch => isMatch
+        ? Observable.return(user)
         : Observable.throw(new HttpError401('Incorrect password.')))
   }
 
