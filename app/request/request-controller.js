@@ -9,5 +9,4 @@ class RequestController extends AbstractController {
 
 }
 
-let instance = new RequestController()
-module.exports = instance
+module.exports = new RequestController()

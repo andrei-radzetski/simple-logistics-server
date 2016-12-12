@@ -16,7 +16,7 @@ class ParamsValidator {
    */
   constructor (raws) {
     if (raws == null || !Array.isArray(raws)) {
-      throw new TypeError('Argument "raws" must by array.')
+      throw new TypeError('Argument "raws" must be array.')
     }
 
     this.params = []

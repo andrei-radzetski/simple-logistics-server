@@ -78,6 +78,14 @@ class ValidationUtil {
     return value != null && (typeof value === 'boolean' || value instanceof Boolean)
   }
 
+  /**
+   * @param {string} value
+   * @returns {boolean}
+   */
+  static isObjectId(value) {
+    return /^[0-9a-fA-F]{24}$/.test(value)
+  }
+
 }
 
 module.exports = ValidationUtil

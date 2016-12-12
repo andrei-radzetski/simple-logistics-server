@@ -20,5 +20,4 @@ class UserController extends AbstractController {
 
 }
 
-let instance = new UserController()
-module.exports = instance
+module.exports = new UserController()

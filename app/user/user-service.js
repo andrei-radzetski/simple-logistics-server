@@ -9,8 +9,9 @@ class UserService extends AbstractService {
   }
 
   findByLogin (login) {
-    return Rx.Observable
-      .fromNodeCallback(User.findOne, User)({ $or: [{ email: login }, { phone: login }] })
+    let condition = { $or: [{ email: login }, { phone: login }] }
+    let source = Rx.Observable.fromNodeCallback(User.findOne, User)
+    return source(condition)
   }
 
 }

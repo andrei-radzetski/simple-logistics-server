@@ -1,4 +1,7 @@
 const RestUtil = require('../rest/rest-util')
+const ParamsValidator = require('../validation/params-validator')
+const ParamValidator = require('../validation/param-validator')
+const logger = require('../logger')(module)
 
 /**
  * @abstract
@@ -33,19 +36,6 @@ class AbstractController {
   }
 
   /**
-   * Call service method and process response.
-   *
-   * @param {Object} context - calling method context.
-   * @param {function} method - calling method.
-   * @param {res} res - server response object.
-   * @param {Array<Object>} params - arguments of the calling method.
-   * @private
-   */
-  callServiceMethod (context, method, res, params) {
-    RestUtil.callServiceMethod(context, method, res, params)
-  }
-
-  /**
    * Find object by id.
    *
    * @param {Object} req - server request
@@ -56,9 +46,16 @@ class AbstractController {
       throw new TypeError('Service doesn\'t have "findById" method.')
     }
 
-    let id = req.params.id
+    let ths = this
 
-    this.callServiceMethod(this.service, this.service.findById, res, [id])
+    new ParamsValidator([
+      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true },
+    ]).validate()
+      .flatMap(result => ths.service.findById(result.id))
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
   }
 
   /**
@@ -73,7 +70,15 @@ class AbstractController {
       throw new TypeError('Service doesn\'t have "find" method.')
     }
 
-    this.callServiceMethod(this.service, this.service.find, res, [{}])
+    // TODO: Unchecked url params
+    logger.warn('Unchecked url params')
+    let ths = this
+
+    ths.service.find({})
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
   }
 
   /**
@@ -87,11 +92,19 @@ class AbstractController {
     if (typeof this.service.update !== 'function') {
       throw new TypeError('Service doesn\'t have "update" method.')
     }
+    
+    // TODO: Unchecked req.body
+    logger.warn('Unchecked req.body')
+    let ths = this
 
-    let id = req.params.id
-    let data = req.body
-
-    this.callServiceMethod(this.service, this.service.update, res, [id, data])
+    new ParamsValidator([
+      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true },
+    ]).validate()
+      .flatMap(result => ths.service.update(result.id, req.body))
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
   }
 }
 

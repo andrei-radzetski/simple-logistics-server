@@ -67,5 +67,4 @@ class TokenService {
   }
 }
 
-let instance = new TokenService()
-module.exports = instance
+module.exports = new TokenService()

@@ -6,29 +6,28 @@ const namespace = require('express-namespace')
 const Rx = require('rx')
 const app = express()
 
-/**
- * Register routers.
- */
-function _registerRouters () {
-  require('../auth').routing(app)
-  require('../user').routing(app)
-  require('../request').routing(app)
-}
+const RestUtil = require('../rest/rest-util')
+const HttpError = require('../rest/error/http-error')
+const HttpError404 = require('../rest/error/http-error-404')
+const HttpError500 = require('../rest/error/http-error-500')
 
 /**
  * Define all middleware here.
  */
-function _defineMiddleware () {
+function defineMiddleware () {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-  app.use(_watcher)
+  app.use(httpMethodWatcher)
 
   require('../auth/auth-init')()
 
-  _registerRouters()
+  registerRouters()
+  app.use(handlePageNotFound)
+  app.use(handleHttpError)
+  app.use(handleError)
 }
 
-function _watcher (req, res, next) {
+function httpMethodWatcher (req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -36,8 +35,46 @@ function _watcher (req, res, next) {
   next()
 }
 
+/**
+ * Register routers.
+ */
+function registerRouters () {
+  require('../auth').routing(app)
+  require('../user').routing(app)
+  require('../request').routing(app)
+}
+
+/**
+ * 
+ */
+function handlePageNotFound(req, res) {
+    throw new HttpError404();
+}
+
+/**
+ * 
+ */
+function handleHttpError(err, req, res, next) {
+  if(!(err instanceof HttpError) || err instanceof HttpError500) {
+    return next(err)
+  }
+
+  let resJson = RestUtil.createResponseBoby(null, true, err.message)
+  res.status(err.code).json(resJson)
+}
+
+/**
+ * 
+ */
+function handleError(err, req, res, next) {
+  logger.error(err instanceof HttpError500 ? err.toString() : err)
+
+  let resJson = RestUtil.createResponseBoby(null, true, 'Internal Server Error')
+  res.status(500).json(resJson)
+}
+
 module.exports = function (rootDir) {
-  _defineMiddleware()
+  defineMiddleware()
 
   return {
     /**

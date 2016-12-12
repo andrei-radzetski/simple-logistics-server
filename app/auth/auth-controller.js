@@ -5,6 +5,7 @@ const tokenService = require('../token/token-service')
 const logger = require('../logger')(module)
 const ParamsValidator = require('../validation/params-validator')
 const ParamValidator = require('../validation/param-validator')
+const HttpError401 = require('../rest/error/http-error-401')
 
 class AuthController {
 
@@ -33,7 +34,7 @@ class AuthController {
       .flatMap(token => RestUtil.dataToResponse(token))
       .subscribe(
       token => res.json(RestUtil.createResponseBoby(token, false)),
-      err => res.status(401).send(err ? err.message : null))
+      err => next(err))
   }
 
   /**
@@ -46,11 +47,8 @@ class AuthController {
   logout (req, res, next) {
     tokenService.disable(req.user.token)
       .subscribe(
-      token => res.sendStatus(401),
-      err => {
-        logger.error(err)
-        res.sendStatus(500)
-      })
+      token => next(new HttpError401()),
+      err => next(err))
   }
 
   /**
@@ -58,14 +56,13 @@ class AuthController {
    */
   _checkUser (user, password) {
     if (!user) {
-      return Observable.throw({ message: 'User not found.' })
+      return Observable.throw(new HttpError401('User not found.'))
     }
 
     return user.comparePassword(password)
-      .flatMapObserver(
-      isMatch => isMatch ? Observable.return(user) : Observable.throw({ message: 'Incorrect password.' }),
-      err => Observable.throw(err),
-      () => Observable.empty())
+      .flatMap(isMatch => isMatch 
+        ? Observable.return(user) 
+        : Observable.throw(new HttpError401('Incorrect password.')))
   }
 
 }

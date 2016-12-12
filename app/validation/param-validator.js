@@ -23,6 +23,10 @@ class ParamValidator {
     return 'BOOLEAN'
   }
 
+  static get OBJECT_ID () {
+    return 'OBJECT_ID'
+  }
+
   /**
    * @param {string} name - param name.
    * @param {Object|undefined} value - value of the param.
@@ -91,6 +95,9 @@ class ParamValidator {
       case ParamValidator.BOOLEAN:
         return this.value != null
 
+      case ParamValidator.OBJECT_ID:
+        return !ValidationUtil.isStringBlank(this.value)
+
       default:
         throw new TypeError('Unknown type "' + this.type + '"')
     }
@@ -119,6 +126,9 @@ class ParamValidator {
 
       case ParamValidator.BOOLEAN:
         return ValidationUtil.isBoolean(this.value, true)
+      
+      case ParamValidator.OBJECT_ID:
+        return ValidationUtil.isObjectId(this.value)
 
       default:
         throw new TypeError('Unknown type "' + this.type + '"')
@@ -175,11 +185,16 @@ class ParamValidator {
 
       case ParamValidator.NUMBER:
         // TODO: verify
-        logger.warn('-----------not verified--------------')
+        logger.warn('Not Verified')
         return Number(value)
 
       case ParamValidator.BOOLEAN:
-        return ValidationUtil.isBoolean(this.value) ? value : value === 'true'
+        return ValidationUtil.isBoolean(value) ? value : value === 'true'
+      
+      case ParamValidator.OBJECT_ID:
+        // TODO: verify
+        logger.warn('Not Verified')
+        return value.toString()
 
       default:
         throw new TypeError('Unknown type "' + type + '"')

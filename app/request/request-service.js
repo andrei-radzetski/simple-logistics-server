@@ -9,5 +9,4 @@ class RequestService extends AbstractService {
 
 }
 
-let instance = new RequestService()
-module.exports = instance
+module.exports = new RequestService()
