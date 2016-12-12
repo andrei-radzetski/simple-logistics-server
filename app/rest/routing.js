@@ -21,21 +21,21 @@ class Routing {
   constructor (app, namespace, raws) {
     this.app = app
     this.namespace = namespace
-    this.raws = raws
     this.routesWithNamespace = []
     this.routesWithoutNamespace = []
-    this._createRoutesFromRaws()
+    this._createRoutesFromRaws(raws)
   }
 
   /**
+   * @private
    * Create routing objects from {@link Routing#raws}
    * array of route data.
    *
-   * @private
+   * @param {Array<Raw>} raws - raw routing objects.
    */
-  _createRoutesFromRaws () {
-    if (this.raws && Array.isArray(this.raws)) {
-      for (let raw of this.raws) {
+  _createRoutesFromRaws (raws) {
+    if (raws && Array.isArray(raws)) {
+      for (let raw of raws) {
         let protect = raw.protection ? passport.authenticate('bearer', { session: false }) : null
         let scope = raw.protection ? this._createScopeMiddleware(raw.protection) : null
         let route = new Route(raw.method, raw.path, protect, scope, raw.handler, raw.straight)

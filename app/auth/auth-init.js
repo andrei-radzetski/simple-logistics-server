@@ -26,18 +26,14 @@ module.exports = () => {
    */
   passport.scope = scope => {
     return (req, res, next) => {
-      if (req.user == null) {
+      if (req.user == null || scope == null) {
         return res.sendStatus(403)
-      }
-
-      if (scope == null || scope === '*') {
-        return next()
       }
 
       let inArray = Array.isArray(scope) && scope.includes(req.user.scope)
       let isMatch = scope === req.user.scope
 
-      inArray || isMatch ? next() : res.sendStatus(403)
+      inArray || isMatch || scope === '*' ? next() : res.sendStatus(403)
     }
   }
 }
