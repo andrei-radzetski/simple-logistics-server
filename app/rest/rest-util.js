@@ -8,11 +8,34 @@ class RestUtil {
    * @param {Object} response - data for the response.
    * @param {Error} error
    * @param {string} message - error message
+   * @param {nubmber} code - internal error code
    * @returns {Object}
    */
-  static createResponseBoby (response, error, message) {
-    return error ? { response: null, error: true, message: message }
-      : { response: response, error: false, message: null }
+  static createResponseBoby (response, error, message, code) {
+    return error 
+      ? { response: null, error: true, message: message, internalCode: code }
+      : { response: response, error: false }
+  }
+
+  /**
+   * Create error response.
+   *
+   * @param {string} message - error message.
+   * @param {nubmber} code - internal error code.
+   * @returns {Object}
+   */
+  static createErrorResBoby (message, code) {
+    return RestUtil.createResponseBoby(null, true, message, code)
+  }
+
+  /**
+   * Create response from error.
+   *
+   * @param {Error} error - error.
+   * @returns {Object}
+   */
+  static createResBobyFromError (error) {
+    return RestUtil.createErrorResBoby(error.message, error.code)
   }
 
   /**

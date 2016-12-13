@@ -28,6 +28,7 @@
     "express-namespace": "^0.1.1",
     "express-session": "^1.14.2",
     "log4js": "^0.6.38",
+    "mongo-errors": "^1.0.1",
     "mongoose": "^4.7.1",
     "nconf": "^0.8.4",
     "passport": "^0.3.2",

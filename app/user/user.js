@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const config = require('../config')
 const AuthUtil = require('../auth/auth-util')
+const logger = require('../logger')(module)
 
 const properties = {
   email: { type: String, required: true, unique: true },

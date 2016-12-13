@@ -10,6 +10,7 @@ const RestUtil = require('../rest/rest-util')
 const HttpError = require('../rest/error/http-error')
 const HttpError404 = require('../rest/error/http-error-404')
 const HttpError500 = require('../rest/error/http-error-500')
+const MongoErrors = require('mongo-errors')
 
 /**
  * Define all middleware here.
@@ -23,6 +24,8 @@ function defineMiddleware () {
 
   registerRouters()
   app.use(handlePageNotFound)
+  app.use(handleMongoError)
+  app.use(handleHttpError500)
   app.use(handleHttpError)
   app.use(handleError)
 }
@@ -52,25 +55,56 @@ function handlePageNotFound (req, res) {
 }
 
 /**
- *
+ * 
  */
-function handleHttpError (err, req, res, next) {
-  if (!(err instanceof HttpError) || err instanceof HttpError500) {
+function handleMongoError (err, req, res, next) {
+  if (err.name !== 'MongoError') {
     return next(err)
   }
 
-  let resJson = RestUtil.createResponseBoby(null, true, err.message)
-  res.status(err.code).json(resJson)
+  switch(err.code) {
+
+    case MongoErrors.DuplicateKey: 
+        logger.error(err.toString())
+        return res.status(400)
+          .json(RestUtil.createErrorResBoby('User with such parameters already exists.', err.code))
+
+    default:
+      logger.error('Unknown MongoError code: ' + err.code)
+      return next(err)
+  }
+}
+
+/**
+ * 
+ */
+function handleHttpError500 (err, req, res, next) {
+  if (!(err instanceof HttpError500)) {
+    return next(err)
+  }
+
+  logger.error(err.toString())
+  res.status(err.code).json(RestUtil.createErrorResBoby(err.message))
+}
+
+/**
+ *
+ */
+function handleHttpError (err, req, res, next) {
+  if (!(err instanceof HttpError)) {
+    return next(err)
+  }
+
+  logger.warn(err.toString())
+  res.status(err.code).json(RestUtil.createErrorResBoby(err.message))
 }
 
 /**
  *
  */
 function handleError (err, req, res, next) {
-  logger.error(err instanceof HttpError500 ? err.toString() : err)
-
-  let resJson = RestUtil.createResponseBoby(null, true, 'Internal Server Error')
-  res.status(500).json(resJson)
+  logger.error(err)
+  res.status(500).json(RestUtil.createErrorResBoby('Internal Server Error'))
 }
 
 module.exports = function (rootDir) {
