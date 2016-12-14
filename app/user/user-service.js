@@ -8,6 +8,13 @@ class UserService extends AbstractService {
     super(User)
   }
 
+  /**
+   * @returns {Observable<Object>}
+   */
+  createNewInstance(data) {
+    return Rx.Observable.return(new User(data));
+  }
+
   findByLogin (login) {
     let condition = { $or: [{ email: login }, { phone: login }] }
     let source = Rx.Observable.fromNodeCallback(User.findOne, User)

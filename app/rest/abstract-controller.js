@@ -24,6 +24,14 @@ class AbstractController {
   }
 
   /**
+   * @abstract
+   * @returns {Observable<Object>}
+   */
+  validateCreateParams(params) {
+    throw new TypeError('"validateCreate" must be overridden.')
+  }
+
+  /**
    * Create response.
    *
    * @param {Object} response - data for the response.
@@ -76,6 +84,28 @@ class AbstractController {
 
     ths.service.find({})
       .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
+
+  /**
+   * Create new object.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  create(req, res, next) {
+    if (typeof this.service.create !== 'function') {
+      throw new TypeError('Service doesn\'t have "create" method.')
+    }
+
+    let ths = this
+    
+    this.validateCreateParams(req.body)
+      .flatMap(params => ths.service.create(params))
+      .flatMap((model, numAffected) => RestUtil.dataToResponse(model))
       .subscribe(
         data => res.json(ths.createResponseBoby(data)),
         err => next(err))

@@ -9,6 +9,7 @@ const properties = {
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   secondName: { type: String, required: true },
+  
   confirmed: { type: Boolean, default: false },
   enabled: { type: Boolean, default: true },
   creationDate: { type: Date, default: new Date(), required: true },

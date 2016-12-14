@@ -5,7 +5,7 @@ const HttpError = require('./http-error')
 class HttpError400 extends HttpError {
 
   constructor (message) {
-    message = message == null ? message : 'Bad Request'
+    message = message != null ? message : 'Bad Request'
     super(400, message)
 
     this.name = this.constructor.name

@@ -5,7 +5,7 @@ const HttpError = require('./http-error')
 class HttpError404 extends HttpError {
 
   constructor (message) {
-    message = message == null ? message : 'Page not found'
+    message = message != null ? message : 'Page not found'
     super(404, message)
 
     this.name = this.constructor.name

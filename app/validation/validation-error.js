@@ -1,12 +1,7 @@
-const HttpError = require('./http-error')
-/**
- * 500 Internal Server Error.
- */
-class HttpError500 extends HttpError {
+class ValidationError extends Error {
 
   constructor (message) {
-    message = message != null ? message : 'Internal Server Error'
-    super(500, message)
+    super(message)
 
     this.name = this.constructor.name
     this.message = message
@@ -18,6 +13,10 @@ class HttpError500 extends HttpError {
     }
   }
 
+  toString () {
+    return this.stack ? this.stack : (this.name + ' ' + this.code + ': ' + this.message)
+  }
+
 }
 
-module.exports = HttpError500
+module.exports = ValidationError

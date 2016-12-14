@@ -1,4 +1,5 @@
 const ParamValidator = require('./param-validator')
+const ValidationError = require('./validation-error')
 const Observable = require('rx').Observable
 
 class ParamsValidator {
@@ -46,7 +47,7 @@ class ParamsValidator {
       .toArray()
       .flatMap(array => {
         return array != null && array.length > 0
-            ? Observable.throw({ message: array.join('; ') })
+            ? Observable.throw(new ValidationError(array.join('; ')))
             : Observable.fromArray(this.params)
       })
       .reduce((acc, x) => {

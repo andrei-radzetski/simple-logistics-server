@@ -24,6 +24,7 @@
   "dependencies": {
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
     "express-namespace": "^0.1.1",
     "express-session": "^1.14.2",

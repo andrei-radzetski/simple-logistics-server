@@ -19,6 +19,12 @@ const routes = [
   },
 
   {
+    method: Route.POST,
+    path: '/',
+    handler: (req, res, next) => ctrl.create(req, res, next)
+  },
+
+  {
     method: Route.GET,
     path: '/:id',
     handler: (req, res, next) => ctrl.findById(req, res, next)

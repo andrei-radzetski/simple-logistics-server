@@ -1,3 +1,5 @@
+const cors = require('cors')
+
 class Route {
 
   static get GET () {
@@ -40,8 +42,8 @@ class Route {
    */
   toArguments () {
     return this.protection != null
-      ? [this.path, this.protection, this.scope, this.handler]
-      : [this.path, this.handler]
+      ? [this.path, cors(), this.protection, this.scope, this.handler]
+      : [this.path, cors(), this.handler]
   }
 
   toString () {

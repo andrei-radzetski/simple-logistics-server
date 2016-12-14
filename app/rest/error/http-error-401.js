@@ -5,7 +5,7 @@ const HttpError = require('./http-error')
 class HttpError401 extends HttpError {
 
   constructor (message) {
-    message = message == null ? message : 'Unauthorized'
+    message = message != null ? message : 'Unauthorized'
     super(401, message)
 
     this.name = this.constructor.name

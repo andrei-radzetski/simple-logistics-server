@@ -59,7 +59,7 @@ class ParamValidator {
     let exists = this._validateRequired()
 
     if (this.required && !exists) {
-      return this._markAsError('is undefined')
+      return this._markAsError(' is undefined')
     }
 
     if (exists && !this._validateType()) {
