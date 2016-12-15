@@ -39,6 +39,10 @@ schema.methods = {
     obj.firstName = this.firstName
     obj.secondName = this.secondName
 
+    if(extended) {
+      obj.scope = this.scope
+    }
+
     return obj
   },
 

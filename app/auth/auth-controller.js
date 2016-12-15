@@ -46,7 +46,7 @@ class AuthController {
   logout (req, res, next) {
     tokenService.disable(req.user.token)
       .subscribe(
-      token => next(new HttpError401()),
+      token => res.json(RestUtil.createResponseBoby(null, false)),
       err => next(err))
   }
 
