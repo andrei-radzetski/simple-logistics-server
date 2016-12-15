@@ -35,6 +35,7 @@ function registerRouters () {
   require('../auth').routing(app)
   require('../user').routing(app)
   require('../request').routing(app)
+  require('../dictionary/dictionary-routing')(app)
 }
 
 module.exports = function (rootDir) {

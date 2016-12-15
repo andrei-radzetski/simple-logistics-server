@@ -82,7 +82,7 @@ class AbstractController {
     logger.warn('Unchecked url params')
     let ths = this
 
-    ths.service.find({})
+    this.service.find({})
       .flatMap(data => RestUtil.dataToResponse(data))
       .subscribe(
         data => res.json(ths.createResponseBoby(data)),
