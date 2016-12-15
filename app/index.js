@@ -14,11 +14,15 @@ function init () {
   const User = require('./user/user')
 
   let admin = new User({
-    email: 'andrei.radzetski@gmail.com',
-    phone: '375292669577',
-    password: 'admin',
-    firstName: 'Admin',
-    secondName: 'Admin',
+    email: "andrei.radzetski@gmail.com",
+    phone: "375293333333",
+    password: "admin",
+    firstName: "Andrei",
+    secondName: "Radzetski",
+    country: "Belarus",
+    city: "Grodno",
+    language: "English",
+    additionalInfo: "Some long log text, which describes the user. Max length is 500 symbols. This user is administrator of the platform.",
     confirmed: true,
     scope: 'admin'
   })
@@ -26,11 +30,15 @@ function init () {
   admin.save((err, user) => logger.info(user))
 
   let user = new User({
-    email: 'user@gmail.com',
-    phone: '375291111111',
-    password: 'user',
-    firstName: 'User',
-    secondName: 'User',
+    email: "svisloch.stels@gmail.com",
+    phone: "375294444444",
+    password: "user",
+    firstName: "Ivan",
+    secondName: "Ivanov",
+    country: "Russia",
+    city: "Moscow",
+    language: "English",
+    additionalInfo: "Some long log text, which describes the user. Max length is 500 symbols. This user is simple user of the platform.",
     confirmed: true,
     scope: 'user'
   })

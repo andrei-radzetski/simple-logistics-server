@@ -4,11 +4,16 @@ const AuthUtil = require('../auth/auth-util')
 const logger = require('../logger')(module)
 
 const properties = {
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, maxlength: 50 },
+  phone: { type: String, required: true, unique: true, maxlength: 50 },
   password: { type: String, required: true },
-  firstName: { type: String, required: true },
-  secondName: { type: String, required: true },
+  firstName: { type: String, required: true, maxlength: 50 },
+  secondName: { type: String, required: true, maxlength: 50 },
+  
+  country: { type: String },
+  city: { type: String },
+  language: { type: String },
+  additionalInfo: { type: String, maxlength: 500 },
   
   confirmed: { type: Boolean, default: false },
   enabled: { type: Boolean, default: true },
@@ -38,9 +43,14 @@ schema.methods = {
     obj.phone = this.phone
     obj.firstName = this.firstName
     obj.secondName = this.secondName
+    obj.country = this.country
+    obj.city = this.city
+    obj.additionalInfo = this.additionalInfo
 
     if(extended) {
+      obj.language = this.language
       obj.scope = this.scope
+      obj.confirmed = this.confirmed
     }
 
     return obj

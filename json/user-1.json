@@ -3,5 +3,10 @@
   "phone": "375293333333",
   "password": "admin",
   "firstName": "Andrei",
-  "secondName": "Radzetski"
+  "secondName": "Radzetski",
+
+  "country": "Belarus",
+  "city": "Grodno",
+  "language": "English",
+  "additionalInfo": "Some long log text, which describes the user. Max length is 500 symbols. This user is administrator of the platform."
 }

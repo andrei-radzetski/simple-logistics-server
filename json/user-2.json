@@ -3,5 +3,10 @@
   "phone": "375294444444",
   "password": "user",
   "firstName": "Ivan",
-  "secondName": "Ivanov"
+  "secondName": "Ivanov",
+
+  "country": "Russia",
+  "city": "Moscow",
+  "language": "English",
+  "additionalInfo": "Some long log text, which describes the user. Max length is 500 symbols. This user is simple user of the platform."
 }
