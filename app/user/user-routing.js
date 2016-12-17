@@ -11,25 +11,35 @@ const routes = [
     protection: '*',
     handler: (req, res, next) => ctrl.profile(req, res, next)
   },
-
+  {
+    method: Route.POST,
+    path: '/profile',
+    straight: true,
+    handler: (req, res, next) => ctrl.createProfile(req, res, next)
+  },
+  {
+    method: Route.PUT,
+    path: '/profile',
+    straight: true,
+    protection: '*',
+    handler: (req, res, next) => ctrl.updateProfile(req, res, next)
+  },
   {
     method: Route.GET,
     path: '/',
     handler: (req, res, next) => ctrl.find(req, res, next)
   },
-
-  {
-    method: Route.POST,
-    path: '/',
-    handler: (req, res, next) => ctrl.create(req, res, next)
-  },
-
   {
     method: Route.GET,
     path: '/:id',
     handler: (req, res, next) => ctrl.findById(req, res, next)
   },
-
+  {
+    method: Route.POST,
+    path: '/',
+    protection: 'admin',
+    handler: (req, res, next) => ctrl.create(req, res, next)
+  },
   {
     method: Route.PUT,
     path: '/:id',
