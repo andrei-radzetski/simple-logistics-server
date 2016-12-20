@@ -9,6 +9,13 @@ class DictionaryService extends AbstractService {
   }
 
   /**
+   * @returns {Observable<Dictionary>}
+   */
+  createNewInstance(data) {
+    return Rx.Observable.return(new Dictionary(data));
+  }
+
+  /**
    * @return {Array<String>}
    */
   getTypes() {

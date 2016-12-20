@@ -11,6 +11,12 @@ const routes = [
     handler: (req, res, next) => ctrl.find(req, res, next)
   },
   {
+    method: Route.POST,
+    path: '/',
+    protection: 'admin',
+    handler: (req, res, next) => ctrl.create(req, res, next)
+  },
+  {
     method: Route.GET,
     path: '/filter',
     protection: 'admin',

@@ -11,6 +11,14 @@ class DictionaryController extends AbstractController {
     super(dictionaryService)
   }
 
+  validateCreateParams(params) {
+    return new ParamsValidator([
+      { name: 'type', value: params.type, type: ParamValidator.STRING, required: true },
+      { name: 'key', value: params.key, type: ParamValidator.STRING, required: true },
+      { name: 'value', value: params.value, type: ParamValidator.STRING, required: true }
+    ]).validate()
+  }
+
   /**
    * Get list of dictionaries.
    *
