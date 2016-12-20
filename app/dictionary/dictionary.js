@@ -21,10 +21,7 @@ schema.methods = {
     obj.id = this._id;
     obj.key = this.key;
     obj.value = this.value;
-
-    if(extended) {
-      obj.type = this.type;
-    }
+    obj.type = this.type;
 
     return obj
   }
