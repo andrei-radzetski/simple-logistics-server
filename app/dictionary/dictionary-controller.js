@@ -10,6 +10,22 @@ class DictionaryController extends AbstractController {
   }
 
   /**
+   * Get list of types of dictionaries.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  types(req, res, next) {
+    let ths = this
+
+    this.service.getTypes()
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
+
+  /**
    * Get list of languages.
    *
    * @param {Object} req - server request

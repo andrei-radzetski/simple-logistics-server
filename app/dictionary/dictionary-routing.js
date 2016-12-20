@@ -12,6 +12,12 @@ const routes = [
   },
   {
     method: Route.GET,
+    path: '/types',
+    protection: 'admin',
+    handler: (req, res, next) => ctrl.types(req, res, next)
+  },
+  {
+    method: Route.GET,
     path: '/languages',
     handler: (req, res, next) => ctrl.languages(req, res, next)
   },
