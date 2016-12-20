@@ -136,6 +136,30 @@ class AbstractController {
         data => res.json(ths.createResponseBoby(data)),
         err => next(err))
   }
+
+  /**
+   * Remove object by id.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  remove (req, res, next) {
+    if (typeof this.service.remove !== 'function') {
+      throw new TypeError('Service doesn\'t have "remove" method.')
+    }
+
+    let ths = this
+
+    new ParamsValidator([
+      { name: 'id', value: req.params.id, type: ParamValidator.OBJECT_ID, required: true }
+    ]).validate()
+      .flatMap(result => ths.service.remove(result.id))
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
 }
 
 module.exports = AbstractController

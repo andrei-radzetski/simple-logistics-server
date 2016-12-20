@@ -87,6 +87,17 @@ class AbstractService {
     let source = Rx.Observable.fromNodeCallback(this.clazz.findByIdAndUpdate, this.clazz)
     return source(id, data, options)
   }
+
+  /**
+   * Remove object by id.
+   *
+   * @param {String} id
+   * @returns {Observable<Object>}
+   */
+  remove(id) {
+    let source = Rx.Observable.fromNodeCallback(this.clazz.findByIdAndRemove, this.clazz)
+    return source(id)
+  }
 }
 
 module.exports = AbstractService

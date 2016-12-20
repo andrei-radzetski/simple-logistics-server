@@ -14,6 +14,10 @@ class Route {
     return 'PUT'
   }
 
+  static get DELETE () {
+    return 'DELETE'
+  }
+
   /**
    * @property {string} method - type of the method (GET, POST, PUT ...).
    * @property {string} path - url.

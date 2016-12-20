@@ -107,6 +107,10 @@ class Routing {
         this._registerMethod(this.app.put, route)
         break
 
+      case Route.DELETE:
+        this._registerMethod(this.app.delete, route)
+        break
+
       default:
         logger.error('Unknown route (namespace=[%s]): %s', route.straight ? '' : this.namespace, route.toString())
         logger.error('Add this method to the {rest.Routing#_registerRoute}')

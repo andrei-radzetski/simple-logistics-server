@@ -17,6 +17,12 @@ const routes = [
     handler: (req, res, next) => ctrl.create(req, res, next)
   },
   {
+    method: Route.DELETE,
+    path: '/:id',
+    protection: 'admin',
+    handler: (req, res, next) => ctrl.remove(req, res, next)
+  },
+  {
     method: Route.GET,
     path: '/filter',
     protection: 'admin',
