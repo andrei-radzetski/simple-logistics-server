@@ -19,6 +19,21 @@ const routes = [
     method: Route.GET,
     path: '/countries',
     handler: (req, res, next) => ctrl.countries(req, res, next)
+  },
+  {
+    method: Route.GET,
+    path: '/request/kinds',
+    handler: (req, res, next) => ctrl.requestKinds(req, res, next)
+  },
+  {
+    method: Route.GET,
+    path: '/request/servives',
+    handler: (req, res, next) => ctrl.requestServices(req, res, next)
+  },
+  {
+    method: Route.GET,
+    path: '/transports',
+    handler: (req, res, next) => ctrl.trasports(req, res, next)
   }
 ]
 

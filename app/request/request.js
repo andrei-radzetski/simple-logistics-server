@@ -1,6 +1,23 @@
 const mongoose = require('mongoose')
 
 const properties = {
+  kind: { type: String, required: true },
+  service: { type: String, required: true },
+  seatsNumber: { type: Number, required: true },
+  transport: { type: String, required: true },
+  name: { type: String },
+  width: { type: Number },
+  height: { type: Number },
+  length: { type: Number },
+  weight: { type: Number },
+  displayEmail: { type: Boolean, default: false, required: true },
+  displayPhone: { type: Boolean, default: false, required: true },
+  // points,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   comment: { type: String },
   enabled: { type: Boolean, default: true },
   creationDate: { type: Date, default: new Date(), required: true }

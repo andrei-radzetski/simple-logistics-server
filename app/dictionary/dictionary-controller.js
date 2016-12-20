@@ -44,6 +44,57 @@ class DictionaryController extends AbstractController {
   }
 
   /**
+   * Get list of kinds of request.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  requestKinds(req, res, next) {
+    let ths = this
+
+    this.service.find({ type: Dictionary.REQUEST_KIND })
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
+
+  /**
+   * Get list of request services.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  requestServices(req, res, next) {
+    let ths = this
+
+    this.service.find({ type: Dictionary.REQUEST_SERVICE })
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
+
+  /**
+   * Get list of transports.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  trasports(req, res, next) {
+    let ths = this
+
+    this.service.find({ type: Dictionary.TRANSPORT })
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(ths.createResponseBoby(data)),
+        err => next(err))
+  }
+
+  /**
    * Get list of objects by params.
    *
    * @param {Object} params

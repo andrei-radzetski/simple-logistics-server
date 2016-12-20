@@ -34,5 +34,8 @@ const Dictionary = mongoose.model('Dictionary', schema)
 
 Dictionary.LANGUAGE = 'LANGUAGE'
 Dictionary.COUNTRY = 'COUNTRY'
+Dictionary.REQUEST_KIND = 'REQUEST_KIND'
+Dictionary.REQUEST_SERVICE = 'REQUEST_SERVICE'
+Dictionary.TRANSPORT = 'TRANSPORT'
 
 module.exports = Dictionary
