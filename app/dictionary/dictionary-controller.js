@@ -2,11 +2,33 @@ const AbstractController = require('../rest').AbstractController
 const dictionaryService = require('./dictionary-service')
 const Dictionary = require('./dictionary')
 const RestUtil = require('../rest/rest-util')
+const ParamsValidator = require('../validation/params-validator')
+const ParamValidator = require('../validation/param-validator')
 
 class DictionaryController extends AbstractController {
 
   constructor () {
     super(dictionaryService)
+  }
+
+  /**
+   * Get list of dictionaries.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  filter(req, res, next) {
+    let self = this
+
+    new ParamsValidator([
+      { name: 'type', value: req.query.type, type: ParamValidator.STRING }
+    ]).validate()
+      .flatMap(params => self.service.find(params))
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(self.createResponseBoby(data)),
+        err => next(err))
   }
 
   /**
@@ -109,19 +131,6 @@ class DictionaryController extends AbstractController {
         data => res.json(ths.createResponseBoby(data)),
         err => next(err))
   }
-
-  /**
-   * Get list of objects by params.
-   *
-   * @param {Object} params
-   * @returns {Observable<Array<Object>>}
-   */
-  find(params) {
-    let options = {}
-    let source = Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)
-    return source(params, options)
-  }
-
 }
 
 module.exports = new DictionaryController()

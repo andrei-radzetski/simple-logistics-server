@@ -51,7 +51,9 @@ class ParamsValidator {
             : Observable.fromArray(this.params)
       })
       .reduce((acc, x) => {
-        acc[x.name] = x.value
+        if(x.value != null) {
+          acc[x.name] = x.value
+        }
         return acc
       }, {})
   }
