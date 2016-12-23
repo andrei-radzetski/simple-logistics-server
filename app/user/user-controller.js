@@ -67,7 +67,7 @@ class UserController extends AbstractController {
    * @param {function} next
    */
   createProfile (req, res, next) {
-    res.json(this.createResponseBoby(null, false))
+    this.create(req, res, next)
   }
 
 }

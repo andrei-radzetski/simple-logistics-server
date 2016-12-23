@@ -15,7 +15,7 @@ const properties = {
   language: { type: String },
   additionalInfo: { type: String, maxlength: 500 },
   
-  confirmed: { type: Boolean, default: false },
+  confirmed: { type: Boolean, default: true },
   enabled: { type: Boolean, default: true },
   creationDate: { type: Date, default: new Date(), required: true },
   // *, admin, user
