@@ -31,6 +31,11 @@ const routes = [
   },
   {
     method: Route.GET,
+    path: '/filter',
+    handler: (req, res, next) => ctrl.filter(req, res, next)
+  },
+  {
+    method: Route.GET,
     path: '/:id',
     handler: (req, res, next) => ctrl.findById(req, res, next)
   },

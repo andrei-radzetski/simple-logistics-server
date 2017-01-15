@@ -5,14 +5,14 @@ const logger = require('../logger')(module)
 
 const properties = {
   email: { type: String, required: true, unique: true, maxlength: 50 },
-  phone: { type: String, required: true, unique: true, maxlength: 50 },
+  phone: { type: String, required: true, unique: true, maxlength: 13 },
   password: { type: String, required: true },
   firstName: { type: String, required: true, maxlength: 50 },
   secondName: { type: String, required: true, maxlength: 50 },
   
-  country: { type: String },
-  city: { type: String },
-  language: { type: String },
+  country: { type: String, maxlength: 3 },
+  city: { type: String, maxlength: 50 },
+  language: { type: String, maxlength: 3 },
   additionalInfo: { type: String, maxlength: 500 },
   
   confirmed: { type: Boolean, default: true },

@@ -2,6 +2,7 @@ const AbstractController = require('../rest').AbstractController
 const userService = require('./user-service')
 const ParamsValidator = require('../validation/params-validator')
 const ParamValidator = require('../validation/param-validator')
+const RestUtil = require('../rest/rest-util')
 
 class UserController extends AbstractController {
 
@@ -20,6 +21,23 @@ class UserController extends AbstractController {
       { name: 'firstName', value: params.firstName, type: ParamValidator.STRING, required: true },
       { name: 'secondName', value: params.secondName, type: ParamValidator.STRING, required: true },
     ]).validate()
+  }
+
+  /**
+   * Get list of users.
+   *
+   * @param {Object} req - server request
+   * @param {Object} res - server response
+   * @param {function} next
+   */
+  filter(req, res, next) {
+    let self = this
+
+    self.service.find(req.query)
+      .flatMap(data => RestUtil.dataToResponse(data))
+      .subscribe(
+        data => res.json(self.createResponseBoby(data)),
+        err => next(err))
   }
 
   /**
