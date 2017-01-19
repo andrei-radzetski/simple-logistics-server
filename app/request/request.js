@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Point = require('../point/point')
 
 const properties = {
   kind: { type: String, required: true },
@@ -12,7 +13,7 @@ const properties = {
   weight: { type: Number },
   displayEmail: { type: Boolean, default: false, required: true },
   displayPhone: { type: Boolean, default: false, required: true },
-  // points,
+  points: [ 'Point' ],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -36,9 +37,26 @@ schema.methods = {
     let obj = {}
 
     obj.id = this._id
+    obj.kind = this.kind
+    obj.service = this.service
+    obj.seatsNumber = this.seatsNumber
+    obj.transport = this.transport
+    obj.name = this.name
+    obj.width = this.width
+    obj.height = this.height
+    obj.length = this.length
+    obj.weight = this.weight
+    obj.displayEmail = this.displayEmail
+    obj.displayPhone = this.displayPhone
+    obj.user = this.user
     obj.comment = this.comment
     obj.enabled = this.enabled
     obj.creationDate = this.creationDate
+    obj.points = [];
+    
+    for(let point of this.points) {
+      obj.points.push(Point.toResponse(point))
+    }
 
     return obj
   }
