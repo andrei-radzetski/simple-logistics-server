@@ -56,6 +56,10 @@ schema.methods = {
     return obj
   },
 
+  getFullName() {
+    return this.firstName + ' ' + this.secondName
+  },
+
   /**
    * Compare password.
    *

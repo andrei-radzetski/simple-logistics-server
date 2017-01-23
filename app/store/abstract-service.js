@@ -56,10 +56,9 @@ class AbstractService {
    * @param {Object} params
    * @returns {Observable<Array<Object>>}
    */
-  find(params) {
-    let options = {}
+  find(params, projection, options) {
     let source = Rx.Observable.fromNodeCallback(this.clazz.find, this.clazz)
-    return source(params, options)
+    return source(params, projection, options)
   }
 
   /**

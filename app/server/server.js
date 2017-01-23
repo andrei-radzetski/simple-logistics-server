@@ -37,6 +37,7 @@ function registerRouters () {
   require('../request').routing(app)
   require('../dictionary/dictionary-routing')(app)
   require('../geo/geo-routing')(app)
+  require('../message/message-routing')(app)
 }
 
 module.exports = function (rootDir) {

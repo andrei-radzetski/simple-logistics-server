@@ -37,6 +37,7 @@ const routes = [
   {
     method: Route.GET,
     path: '/:id',
+    protection: '*',
     handler: (req, res, next) => ctrl.findById(req, res, next)
   },
   {
