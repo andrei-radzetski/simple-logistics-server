@@ -30,6 +30,7 @@ class AuthController {
       })
       .flatMap(user => ths._checkUser(user, params.password))
       .flatMap(user => tokenService.create(user, params.remember))
+      .flatMap(token => tokenService.get(token))
       .flatMap(token => RestUtil.dataToResponse(token))
       .subscribe(
       token => res.json(RestUtil.createResponseBoby(token, false)),

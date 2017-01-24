@@ -43,6 +43,9 @@ const properties = {
     type: Boolean,
     default: true
   },
+  length: {
+    type: Number
+  },
   creationDate: { type: Date, default: new Date(), required: true }
 }
 

@@ -10,8 +10,21 @@ class RequestController extends AbstractController {
 
   filter(req, res, next) {
     let self = this
+    let count = 0
+    requestService.filter(req.query, null, null, req.user)
+      .flatMap(res => {
+        count = res.count
+        return RestUtil.dataToResponse(res.data)
+      })
+      .subscribe(
+        data => res.json(RestUtil.addCountToBody(self.createResponseBoby(data), count)),
+        err => next(err))
+  }
 
-    self.service.find(req.query)
+  get(req, res, next) {
+    let self = this
+
+    this.service.findById(result.id)
       .flatMap(data => RestUtil.dataToResponse(data))
       .subscribe(
         data => res.json(self.createResponseBoby(data)),

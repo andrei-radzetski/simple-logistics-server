@@ -29,7 +29,7 @@ schema.statics = {
     return {
       accessToken: AuthUtil.genToken(config.get('auth:tokenLength')),
       expires: remember ? config.get('auth:rememberLong') : config.get('auth:rememberShort'),
-      user: user._id
+      user: user._id,
     }
   }
 }
@@ -46,6 +46,8 @@ schema.methods = {
 
     obj.accessToken = this.accessToken
     obj.expires = this.expires
+    obj.scope = this.user ? this.user.scope : 'user';
+    obj.user = this.user ? this.user._id : undefined;
 
     return obj
   },

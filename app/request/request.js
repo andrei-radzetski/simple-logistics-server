@@ -48,7 +48,16 @@ schema.methods = {
     obj.weight = this.weight
     obj.displayEmail = this.displayEmail
     obj.displayPhone = this.displayPhone
-    obj.user = this.user
+    
+    if(this.user._id) {
+      obj.user = this.user._id
+      obj.userName = this.user.getFullName()
+      obj.phone = this.displayPhone ? this.user.phone : undefined
+      obj.email = this.displayEmail ? this.user.email : undefined
+    } else {
+      obj.user = obj.user
+    }
+    
     obj.comment = this.comment
     obj.enabled = this.enabled
     obj.creationDate = this.creationDate
@@ -61,5 +70,12 @@ schema.methods = {
     return obj
   }
 }
+
+schema.pre('save', function (next) {
+   for(let i = 0; i < this.points.length; i++) {
+     this.points[i].length = this.points.length
+   }
+   next()
+})
 
 module.exports = mongoose.model('Request', schema)

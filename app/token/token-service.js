@@ -32,6 +32,19 @@ class TokenService {
     return Rx.Observable.fromNodeCallback(Token.create, Token)(data)
   }
 
+  get(token) {
+    return Rx.Observable.create(observer => {
+      Token.findOne({ accessToken: token.accessToken })
+        .populate('user')
+        .exec()
+        .then(token => {
+          observer.onNext(token)
+          observer.onCompleted()
+        })
+        .catch(err => observer.onError(err))
+    })
+  }
+
   /**
    * Find token by key and populate user field.
    *

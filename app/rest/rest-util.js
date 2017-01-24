@@ -17,6 +17,11 @@ class RestUtil {
       : { response: response, error: false }
   }
 
+  static addCountToBody(response, count) {
+    response.count = count
+    return response
+  }
+
   /**
    * Create error response.
    *
